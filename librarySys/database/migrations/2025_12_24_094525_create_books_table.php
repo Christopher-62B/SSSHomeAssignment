@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('title');
-            $table->string('slug')->unique();          
+            $table->string('slug')->unique();          //This is so that titles are easier on the URL
             $table->string('isbn')->nullable();        // optional for ISBN for now
             $table->unsignedSmallInteger('published_year')->nullable();
 
