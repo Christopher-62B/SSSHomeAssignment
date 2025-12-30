@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Borrower;
 
 class BorrowerSeeder extends Seeder
 {
@@ -12,6 +13,16 @@ class BorrowerSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Borrower::create([
+            'name' => 'Alice Borg',
+            'email' => 'alice@example.com',
+            'phone' => '77770001',
+        ]);
+
+        Borrower::create([
+            'name' => 'Mark Camilleri',
+            'email' => 'mark@example.com',
+            'phone' => '77770002',
+        ]);
     }
 }
