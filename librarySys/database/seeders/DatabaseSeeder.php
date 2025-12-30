@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
                 CategorySeeder::class,
                 BookSeeder::class,
                 BorrowerSeeder::class,
+                LoanSeeder::class,
             ]);
         
 
