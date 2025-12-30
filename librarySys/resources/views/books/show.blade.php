@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ $book->title }}</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', $book->title)
+
+@section('content')
     <a href="/books">← Back to Books</a>
 
     <h1>{{ $book->title }}</h1>
@@ -20,5 +19,4 @@
     @endif
 
     <p><strong>Available:</strong> {{ $book->available ? 'Yes' : 'No' }}</p>
-</body>
-</html>
+@endsection
