@@ -1,66 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# This is a basic breakdown of my project currently.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Description and Database Structure:
 
-## About Laravel
+My project is a Library Management System, where a library administrator/Librarian can manage the library's
+stock and also manage book loans and their borrowers.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It is spit into 5 tables
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Author
+2. Category
+3. Book
+4. Borrower
+5. Loan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-- Author contains the following table fields:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. id
+2. name
+3. bio (aka Biography as flavour text (optional))
+4. timestamps (the default Laravel field that shows the time when the record was created/updated)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+-- Category table fields:
 
-### Premium Partners
+1. id
+2. name
+3. description (optional)
+4. timestamps (the default Laravel field that shows the time when the record was created/updated)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-- Book table fields:
 
-## Code of Conduct
+1. id
+2. title
+3. slug (so that it looks cleaner in the URL)
+4. isbn (added for extra realism to the project)
+5. published_year (date of publish)
+6. available ((added later) for the loan table to see if borrowers were eligible to borrow the book)
+7. timestamps (the default Laravel field that shows the time when the record was created/updated)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+~ Foreign Keys:
 
-## Security Vulnerabilities
+1. author_id (References the Author table)
+2. category_id (References the Category table)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-- Borrower table fields:
+
+1. id
+2. name
+3. email
+4. phone (mobile number)
+5. timestamps (the default Laravel field that shows the time when the record was created/updated)
+
+
+
+-- Loan table fields:
+
+1. id
+2. borrowed_at (The date when the book was borrowed)
+3. due_date (date when the book should be returned)
+4. returned_at (optional because borrowers might not return the book)
+5. timestamps (the default Laravel field that shows the time when the record was created/updated)
+
+~ Foreign Keys:
+
+1. book_id (References Book table)
+2. borrower_id (References Borrower table)
+
+
+## Database Relationships
+
+These were done using the Eloquent ORM
+
+-- Author:
+
+One to Many relationship with Book table: 
+
+Because one Author can have many Books and a Book belongs to one Author
+
+-- Category:
+
+One to Many relatioship with Book table:
+
+One Category can have many Books, but a Book has one Category
+
+-- Book:
+
+One to Many realtionship with Loan table:
+
+One Book could have had many loans but a Loan can only refer to one Book
+
+(Meaning that a Book could have multiple Loans listed under it but a Loan can only have one of the same Book)
+
+-- Borrower:
+
+One to Many relationship with Loan table:
+
+One Borrower can have multiple Loans but a Loan can only refer to one Borrower.
+
+(Meaning that a Borrower can have multiple loans under their name but a Loan can only be linked to one Borrower).
+
+## Features
+
+The features I used in the project were to Adhere to the CRUD principle:
+
+C - Create, Feature for Creation = Loan creation (Borrowing a Book)
+
+R - Read, Feature for Reading = Information on Books and loans can be seen on screen
+
+U - Update, Feature for Updating = Loan information can be updated from the loans table
+
+D - Deletion, Feature for Deletion = Will be added in the future as it is not implemented yet.
+
+## Technologies used
+
+Laravel (version 10)
+PHP
+MariaDB 
+Blade (for user interface)
+Eloquent ORM (for database interation)
+HTML
+
+## How I ran the project
+
+1. Command used: php artisan serve --host=0.0.0.0 --port=8000
+2. Then I opened Google Chrome. Did not try my project on MS Edge.
