@@ -25,14 +25,29 @@
             </thead>
             <tbody>
             @foreach ($loans as $loan)
-                <tr>
+
+                @php
+                    $isOverdue = $loan->returned_at === null
+                        && \Carbon\Carbon::parse($loan->due_date)->lt(now()->startOfDay());
+
+                    $daysOverdue = $isOverdue
+                        ? \Carbon\Carbon::parse($loan->due_date)->diffInDays(now()->startOfDay())
+                        : 0;
+                @endphp
+
+                <tr @if($isOverdue) style="background:#ffe6e6;" @endif>
                     <td>
                         {{ $loan->book->title }}
                         — {{ $loan->book->author->name }}
                     </td>
                     <td>{{ $loan->borrower->name }}</td>
                     <td>{{ $loan->borrowed_at }}</td>
-                    <td>{{ $loan->due_date }}</td>
+                    <td>
+                        {{ $loan->due_date }}
+                        @if($isOverdue)
+                            <strong style="color: red;">(OVERDUE {{ $daysOverdue }} day{{ $daysOverdue === 1 ? '' : 's' }})</strong>
+                        @endif
+                    </td>
                     <td>{{ $loan->returned_at ?? 'Not returned' }}</td>
                     <td>
                         @if($loan->returned_at === null)
