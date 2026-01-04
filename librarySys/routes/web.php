@@ -21,7 +21,7 @@ Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{slug}', [BookController::class, 'show']);
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/books');
 });
 
 Route::get('/loans', [LoanController::class, 'index']);
