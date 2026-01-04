@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\BorrowerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,6 @@ Route::get('/loans', [LoanController::class, 'index']);
 Route::get('/loans/create', [LoanController::class, 'create']);
 Route::post('/loans', [LoanController::class, 'store']);
 Route::post('/loans/{loan}/return', [LoanController::class, 'markReturned']);
+
+Route::get('/borrowers/create', [BorrowerController::class, 'create']);
+Route::post('/borrowers', [BorrowerController::class, 'store']);
