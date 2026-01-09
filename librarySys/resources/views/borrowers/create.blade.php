@@ -32,10 +32,7 @@
             <input type="email" name="email" value="{{ old('email') }}" required>
         </div>
 
-        <div style="margin-bottom: 10px;">
-            <label>Phone (optional):</label><br>
-            <input type="text" name="phone" value="{{ old('phone') }}">
-        </div>
+        
 
         <button type="submit">Save Borrower</button>
     </form>

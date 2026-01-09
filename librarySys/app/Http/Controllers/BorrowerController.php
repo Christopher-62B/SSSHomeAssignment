@@ -17,7 +17,6 @@ class BorrowerController extends Controller
         $validated = $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:borrowers,email'],
-            'phone' => ['nullable', 'string', 'max:50'],
         ]);
 
         Borrower::create($validated);
