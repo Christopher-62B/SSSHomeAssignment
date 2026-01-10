@@ -3,64 +3,73 @@
 @section('title', 'Loans')
 
 @section('content')
-    <h1>Loans</h1>
-
-    @if (session('success'))
-        <p style="color: green;"><strong>{{ session('success') }}</strong></p>
-    @endif
+    <h1 class="mb-4">Loans</h1>
 
     @if ($loans->isEmpty())
         <p>No loans yet.</p>
     @else
-        <table border="1" cellpadding="8">
-            <thead>
-            <tr>
-                <th>Book</th>
-                <th>Borrower</th>
-                <th>Borrowed At</th>
-                <th>Due Date</th>
-                <th>Returned At</th>
-                <th>Action</th>
-            </tr>
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Book</th>
+                    <th>Borrower</th>
+                    <th>Borrowed At</th>
+                    <th>Due Date</th>
+                    <th>Returned At</th>
+                    <th>Action</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach ($loans as $loan)
+                @foreach ($loans as $loan)
 
-                @php
-                    $isOverdue = $loan->returned_at === null
-                        && \Carbon\Carbon::parse($loan->due_date)->lt(now()->startOfDay());
+                    @php
+                        $isOverdue = $loan->returned_at === null
+                            && \Carbon\Carbon::parse($loan->due_date)->lt(now()->startOfDay());
 
-                    $daysOverdue = $isOverdue
-                        ? \Carbon\Carbon::parse($loan->due_date)->diffInDays(now()->startOfDay())
-                        : 0;
-                @endphp
+                        $daysOverdue = $isOverdue
+                            ? \Carbon\Carbon::parse($loan->due_date)->diffInDays(now()->startOfDay())
+                            : 0;
+                    @endphp
 
-                <tr @if($isOverdue) style="background:#ffe6e6;" @endif>
-                    <td>
-                        {{ $loan->book->title }}
-                        — {{ $loan->book->author->name }}
-                    </td>
-                    <td>{{ $loan->borrower->name }}</td>
-                    <td>{{ $loan->borrowed_at }}</td>
-                    <td>
-                        {{ $loan->due_date }}
-                        @if($isOverdue)
-                            <strong style="color: red;">(OVERDUE {{ $daysOverdue }} day{{ $daysOverdue === 1 ? '' : 's' }})</strong>
-                        @endif
-                    </td>
-                    <td>{{ $loan->returned_at ?? 'Not returned' }}</td>
-                    <td>
-                        @if($loan->returned_at === null)
-                            <form method="POST" action="/loans/{{ $loan->id }}/return">
-                                @csrf
-                                <button type="submit">Mark Returned</button>
-                            </form>
-                        @else
-                            —
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
+                    <tr class="{{ $isOverdue ? 'table-danger' : '' }}">
+                        <td>
+                            {{ $loan->book->title }}
+                            <br>
+                            <small class="text-muted">
+                                {{ $loan->book->author->name }}
+                            </small>
+                        </td>
+
+                        <td>{{ $loan->borrower->name }}</td>
+                        <td>{{ $loan->borrowed_at }}</td>
+
+                        <td>
+                            {{ $loan->due_date }}
+                            @if($isOverdue)
+                                <span class="badge bg-danger ms-2">
+                                    OVERDUE {{ $daysOverdue }} day{{ $daysOverdue === 1 ? '' : 's' }}
+                                </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            {{ $loan->returned_at ?? 'Not returned' }}
+                        </td>
+
+                        <td>
+                            @if($loan->returned_at === null)
+                                <form method="POST" action="/loans/{{ $loan->id }}/return">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        Mark Returned
+                                    </button>
+                                </form>
+                            @else
+                                —
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     @endif

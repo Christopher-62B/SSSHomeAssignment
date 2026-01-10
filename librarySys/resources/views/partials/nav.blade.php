@@ -1,6 +1,27 @@
-<nav style="padding: 10px; background: #eee;">
-    <a href="/books">Books</a> |
-    <a href="/loans">Loans</a> |
-    <a href="/loans/create">Borrow a Book</a> |
-    <a href="/borrowers/create">Add Borrower</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/books">LibrarySys</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loans">Loans</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loans/create">Borrow a Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/borrowers/create">Add Borrower</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>

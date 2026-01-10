@@ -16,13 +16,11 @@ class BorrowerSeeder extends Seeder
         Borrower::create([
             'name' => 'Alice Borg',
             'email' => 'alice@example.com',
-            'phone' => '77770001',
         ]);
 
         Borrower::create([
             'name' => 'Mark Camilleri',
             'email' => 'mark@example.com',
-            'phone' => '77770002',
         ]);
     }
 }

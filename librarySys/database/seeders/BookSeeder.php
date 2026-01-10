@@ -43,6 +43,26 @@ class BookSeeder extends Seeder
             'category_id' => $fantasy->id,
             'available' => true,
         ]);
+
+        Book::create([
+            'title' => 'The Lord Of the Rings',
+            'slug' => Str::slug('The Lord Of the Rings'),
+            'isbn' => '9788845292613',
+            'published_year' => 1954,
+            'author_id' => $tolkien->id,
+            'category_id' => $fantasy->id,
+            'available' => true,
+        ]);
+
+        Book::create([
+            'title' => 'Animal Farm',
+            'slug' => Str::slug('Animal Farm'),
+            'isbn' => '9780194267533',
+            'published_year' => 1945,
+            'author_id' => $orwell->id,
+            'category_id' => $fiction->id,
+            'available' => true,
+        ]);
     }
 
 }
