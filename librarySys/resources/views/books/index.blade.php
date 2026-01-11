@@ -5,6 +5,8 @@
 @section('content')
     <h1 class="mb-4">Books</h1>
 
+    @include('books._filters')
+
     <table class="table table-striped table-hover align-middle">
         <thead>
             <tr>
