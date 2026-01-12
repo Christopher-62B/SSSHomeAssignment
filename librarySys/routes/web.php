@@ -19,6 +19,14 @@ use App\Http\Controllers\BorrowerController;
 
 Route::get('/books', [BookController::class, 'index']);
 
+Route::get('/books/create', [BookController::class, 'create']);
+Route::post('/books', [BookController::class, 'store']);
+
+Route::get('/books/{slug}/edit', [BookController::class, 'edit']);
+Route::put('/books/{slug}', [BookController::class, 'update']);
+Route::delete('/books/{slug}', [BookController::class, 'destroy']);
+
+
 Route::get('/books/{slug}', [BookController::class, 'show']);
 
 Route::get('/', function () {

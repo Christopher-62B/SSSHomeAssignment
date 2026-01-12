@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Books')
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Books</h1>
+    <a href="/books/create" class="btn btn-primary">Add Book</a>
+</div>
+
 
 @section('content')
     <h1 class="mb-4">Books</h1>

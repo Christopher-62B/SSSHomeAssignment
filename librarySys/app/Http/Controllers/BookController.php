@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Author;
+
 
 class BookController extends Controller
 {
@@ -60,4 +63,109 @@ class BookController extends Controller
 
         return view('books.show', compact('book'));
     }
+
+    // Show form to create a new book
+    public function create()
+    {
+        $authors = Author::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.create', compact('authors', 'categories'));
+    }
+
+    // Store the new book
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'isbn' => ['nullable', 'string', 'max:50'],
+            'published_year' => ['nullable', 'integer', 'min:1000', 'max:' . now()->year],
+            'author_id' => ['required', 'exists:authors,id'],
+            'category_id' => ['required', 'exists:categories,id'],
+        ]);
+
+        // Create unique SEO-friendly slug
+        $baseSlug = Str::slug($validated['title']);
+        $slug = $baseSlug;
+        $counter = 2;
+
+        while (Book::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        Book::create([
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'isbn' => $validated['isbn'] ?? null,
+            'published_year' => $validated['published_year'] ?? null,
+            'author_id' => $validated['author_id'],
+            'category_id' => $validated['category_id'],
+            'available' => true,
+        ]);
+
+        return redirect('/books')->with('success', 'Book added successfully.');
+    }
+
+    // Show form to edit a book
+    public function edit(string $slug)
+    {
+        $book = Book::where('slug', $slug)->firstOrFail();
+        $authors = Author::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.edit', compact('book', 'authors', 'categories'));
+    }
+
+    // Update the book
+    public function update(Request $request, string $slug)
+    {
+        $book = Book::where('slug', $slug)->firstOrFail();
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'isbn' => ['nullable', 'string', 'max:50'],
+            'published_year' => ['nullable', 'integer', 'min:1000', 'max:' . now()->year],
+            'author_id' => ['required', 'exists:authors,id'],
+            'category_id' => ['required', 'exists:categories,id'],
+        ]);
+
+        // If title changed, regenerate slug (keep unique)
+        if ($validated['title'] !== $book->title) {
+            $baseSlug = Str::slug($validated['title']);
+            $newSlug = $baseSlug;
+            $counter = 2;
+
+            while (Book::where('slug', $newSlug)->where('id', '!=', $book->id)->exists()) {
+                $newSlug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+
+            $book->slug = $newSlug;
+        }
+
+        $book->title = $validated['title'];
+        $book->isbn = $validated['isbn'] ?? null;
+        $book->published_year = $validated['published_year'] ?? null;
+        $book->author_id = $validated['author_id'];
+        $book->category_id = $validated['category_id'];
+        $book->save();
+
+        return redirect('/books/' . $book->slug)->with('success', 'Book updated successfully.');
+    }
+
+    // Delete a book (only if not on loan)
+    public function destroy(string $slug)
+    {
+        $book = Book::where('slug', $slug)->firstOrFail();
+
+        if (!$book->available) {
+            return back()->with('success', 'Cannot delete: book is currently on loan.');
+        }
+
+        $book->delete();
+
+        return redirect('/books')->with('success', 'Book deleted successfully.');
+    }
+
 }
