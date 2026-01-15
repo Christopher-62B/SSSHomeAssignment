@@ -18,24 +18,15 @@ class BookSeeder extends Seeder
 
     public function run(): void
     {
-        //Authors
+    
         $orwell = Author::where('name', 'George Orwell')->first();
         $tolkien = Author::where('name', 'J. R. R. Tolkien')->first();
-        $agatha = Author::where('name', 'Agatha Christie')->first();
-        $stephen = Author::where('name', 'Stephen King')->first();
-        $jane = Author::where('name', 'Jane Austen')->first();
-        $ernest = Author::where('name', 'Ernest Hemingway')->first();
-        $isaac = Author::where('name', 'Isaac Asimov')->first();
-        $mark = Author::where('name', 'Mark Twain')->first();
+        
 
-        //Categories
+        
         $fiction = Category::where('name', 'Fiction')->first();
         $fantasy = Category::where('name', 'Fantasy')->first();
-        $scifi = Category::where('name', 'Sci-Fi')->first();
-        $mystery = Category::where('name', 'Mystery')->first();
-        $history = Category::where('name', 'History')->first();
-        $romance = Category::where('name', 'Romance')->first();
-        $nonfic = Category::where('name', 'Non-Fiction')->first();
+        
 
         Book::create([
             'title' => '1984',

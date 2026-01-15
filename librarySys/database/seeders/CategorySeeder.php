@@ -15,15 +15,36 @@ class CategorySeeder extends Seeder
     
 
     public function run(): void{
-        Category::create([
-            'name' => 'Fiction',
-            'description' => 'Fictional books'
-        ]);
+        $categories = [
+            [
+                'name' => 'Fiction',
+                'description' => 'Fictional books',
+            ],
+            [
+                'name' => 'Fantasy',
+                'description' => 'Fantasy and adventure books',
+            ],
+            [
+                'name' => 'Science Fiction',
+                'description' => 'Science fiction and futuristic themes',
+            ],
+            [
+                'name' => 'Mystery',
+                'description' => 'Mystery and crime novels',
+            ],
+            [
+                'name' => 'Romance',
+                'description' => 'Romantic novels',
+            ],
+            [
+                'name' => 'Non-Fiction',
+                'description' => 'Based on real events and facts',
+            ],
+        ];
 
-        Category::create([
-            'name' => 'Fantasy',
-            'description' => 'Fantasy and adventure books'
-        ]);
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
     }
 
 }
